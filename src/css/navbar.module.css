@@ -1,0 +1,24 @@
+.navContain {
+  height: 5rem;
+}
+
+.kavios {
+  align-self: flex-end;
+  font-size: 2.125rem;
+  color: #212529 !important;
+}
+
+.pix {
+  color: #f03e3e;
+  font-weight: 800;
+  text-transform: capitalize;
+  font-size: 2rem !important;
+  align-self: flex-end;
+}
+
+.cameraLogo {
+  align-self: flex-start;
+  background-color: #f1f3f584;
+  width: fit-content;
+  border-radius: 50%;
+}

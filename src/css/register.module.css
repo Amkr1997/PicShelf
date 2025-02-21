@@ -1,0 +1,17 @@
+.registerContainer {
+  min-height: calc(100vh - 5rem);
+}
+
+.googleBtn {
+  background-color: #e9ecef;
+  border: none;
+  padding: 1.25rem 6rem;
+  font-size: 1.5rem;
+  border-radius: 4rem;
+  margin-bottom: 5rem;
+}
+
+.googleBtn:hover {
+  background-color: #ced4da;
+  transition: all 0.2s;
+}

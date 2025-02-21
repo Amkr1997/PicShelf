@@ -1,0 +1,35 @@
+.btn,
+.shareSubmitbtn {
+  background-color: #f03e3e;
+  text-decoration: none;
+}
+
+.btn:hover,
+.shareSubmitbtn:hover {
+  background-color: #ffe3e3;
+  color: #212529 !important;
+  font-weight: 600 !important;
+
+  transition: all 0.2s;
+}
+
+.trash,
+.share,
+.edit {
+  cursor: pointer;
+}
+
+.trashBtn:hover,
+.shareBtn:hover,
+.editBtn:hover {
+  color: #f03e3e;
+  transition: all 0.2s;
+}
+
+.shareContainer {
+  border-top: none !important;
+}
+
+.shareSubmitbtn {
+  border: none;
+}
