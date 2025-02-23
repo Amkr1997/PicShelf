@@ -1,3 +1,9 @@
+.albumThumbnail {
+  height: 10rem !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
 .btn,
 .shareSubmitbtn {
   background-color: #f03e3e;

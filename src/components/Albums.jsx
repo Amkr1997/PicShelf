@@ -1,18 +1,33 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../css/albums.module.css";
 import { BsShareFill, BsFillTrashFill, BsPencilSquare } from "react-icons/bs";
 import { useState } from "react";
 import ShareComponent from "./ShareComponent";
-import { useGetAllAlbumsQuery } from "../features/apiSlice";
+import {
+  useDeleteAlbumMutation,
+  useGetAllAlbumsQuery,
+} from "../features/apiSlice";
 import Loader from "./Loader";
+import { toast } from "react-toastify";
 
 const Albums = () => {
   const [showShare, setShowShare] = useState(null);
   const { data: albumData, isLoading, isError, error } = useGetAllAlbumsQuery();
+  const [deleteTheAlbum] = useDeleteAlbumMutation();
+  const navigate = useNavigate();
 
   const handleShareDisplay = (indexVal) => {
     if (showShare === null) setShowShare(indexVal);
     else setShowShare(null);
+  };
+
+  const deleteHandler = async (album) => {
+    try {
+      await deleteTheAlbum(album);
+      toast.success("Album deleted");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -33,7 +48,11 @@ const Albums = () => {
               >
                 <div className="card border-2 h-100">
                   <img
-                    src="https://placehold.co/900x450/orange/white"
+                    src={
+                      albumData?.[index]?.imageId?.[0]?.imageName ||
+                      "https://placehold.co/900x450/orange/white"
+                    }
+                    className={`img-thumbnail ${styles.albumThumbnail}`}
                     alt="album-image"
                   />
                   <div className="card-body pb-0 text-center">
@@ -60,10 +79,18 @@ const Albums = () => {
                         />
                       </div>
                       <div className={`fs-4 ${styles.trash}`}>
-                        <BsFillTrashFill className={`${styles.trashBtn}`} />
+                        <BsFillTrashFill
+                          className={`${styles.trashBtn}`}
+                          onClick={() => deleteHandler(albums)}
+                        />
                       </div>
                       <div className={`fs-4 ${styles.edit}`}>
-                        <BsPencilSquare className={`${styles.editBtn}`} />
+                        <BsPencilSquare
+                          className={`${styles.editBtn}`}
+                          onClick={() => {
+                            navigate("/add/album", { state: albums });
+                          }}
+                        />
                       </div>
                     </div>
                   </div>

@@ -3,6 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const apiSlice = createApi({
   reducerPath: "apiSlice",
+  tagTypes: ["GetAllAlbums"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${API_URL}`,
     prepareHeaders: (headers, { endpoint }) => {
@@ -51,6 +52,8 @@ const apiSlice = createApi({
             method: "GET",
           };
         },
+
+        providesTags: ["GetAllAlbums"],
       }),
 
       postNewAlbum: builder.mutation({
@@ -61,16 +64,20 @@ const apiSlice = createApi({
             body: albumData,
           };
         },
+
+        invalidatesTags: ["GetAllAlbums"],
       }),
 
       updateAlbum: builder.mutation({
-        query: (albumId, userId, dataToUpdate) => {
+        query: (updatedData) => {
           return {
-            url: `/update/album/${albumId}/user/${userId}`,
+            url: `/update/album/${updatedData?._id}/user/${updatedData?.userId}`,
             method: "POST",
-            body: dataToUpdate,
+            body: updatedData,
           };
         },
+
+        invalidatesTags: ["GetAllAlbums"],
       }),
 
       shareAlbum: builder.mutation({
@@ -81,15 +88,20 @@ const apiSlice = createApi({
             body: emailData,
           };
         },
+
+        invalidatesTags: ["GetAllAlbums"],
       }),
 
       deleteAlbum: builder.mutation({
-        query: (albumId, userId) => {
+        query: (album) => {
+          //console.log(albumId, userId);
           return {
-            url: `/delete/album/${albumId}/user/${userId}`,
+            url: `/delete/album/${album?._id}/user/${album?.userId}`,
             method: "DELETE",
           };
         },
+
+        invalidatesTags: ["GetAllAlbums"],
       }),
 
       // Image Routes

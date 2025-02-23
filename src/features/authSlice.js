@@ -12,8 +12,13 @@ const authSlice = createSlice({
     logInUser: (state) => {
       state.isAuthenticated = true;
     },
+
+    logoutUser: (state) => {
+      localStorage.removeItem("picShelf_access_token");
+      state.isAuthenticated = false;
+    },
   },
 });
 
-export const { logInUser } = authSlice.actions;
+export const { logInUser, logoutUser } = authSlice.actions;
 export default authSlice;

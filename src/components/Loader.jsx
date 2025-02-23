@@ -5,7 +5,11 @@ const Loader = () => {
     <>
       {loaderArr.map((_, index) => {
         return (
-          <div className={`col-sm-6 col-md-4 col-lg-3 mb-3`} key={index}>
+          <div
+            className={`col-sm-6 col-lg-4 col-xl-3 mb-3`}
+            key={index}
+            style={{ height: "25rem" }}
+          >
             <div className="card" aria-hidden="true">
               <img
                 src="https://placehold.co/600x300/#f1f3f5/white?text=LOADING"
@@ -13,6 +17,10 @@ const Loader = () => {
                 alt=""
               />
               <div className="card-body">
+                <button
+                  className="btn btn-danger disabled placeholder col-6"
+                  aria-disabled="true"
+                ></button>
                 <h5 className="card-title placeholder-glow">
                   <span className="placeholder col-6"></span>
                 </h5>
@@ -23,10 +31,6 @@ const Loader = () => {
                   <span className="placeholder col-6"></span>
                   <span className="placeholder col-8"></span>
                 </p>
-                <button
-                  className="btn btn-primary disabled placeholder col-6"
-                  aria-disabled="true"
-                ></button>
               </div>
             </div>
           </div>

@@ -1,8 +1,16 @@
 import { NavLink } from "react-router-dom";
 import styles from "../css/navbar.module.css";
-import { BsPersonFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../features/authSlice";
+//import { BsPersonFill } from "react-icons/bs";
 
 const NavbarResponsive = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
   return (
     <>
       <nav className="container navbar navbar-expand-lg bg-white">
@@ -18,14 +26,24 @@ const NavbarResponsive = () => {
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <NavLink
-                  className="nav-link fs-5 fw-medium"
+                  className="nav-link fs-4 fw-semibold fw-medium"
                   aria-current="page"
-                  to="/profile"
+                  to="/add/album"
                 >
-                  <span className="d-flex align-items-center justify-content-center bg-body-secondary p-2 rounded-circle">
+                  {" "}
+                  Add Album
+                  {/*<span className="d-flex align-items-center justify-content-center bg-body-secondary p-2 rounded-circle">
                     <BsPersonFill className="fs-4" />
-                  </span>
+                  </span>*/}
                 </NavLink>
+              </li>
+              <li className="nav-item">
+                <button
+                  className="btn fs-4 fw-semibold"
+                  onClick={() => handleLogout()}
+                >
+                  Log Out
+                </button>
               </li>
             </ul>
           </div>
