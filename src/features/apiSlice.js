@@ -81,11 +81,12 @@ const apiSlice = createApi({
       }),
 
       shareAlbum: builder.mutation({
-        query: (albumId, userId, emailData) => {
+        query: ({ albumId, userId, dataToShare }) => {
+          console.log(albumId, userId, dataToShare);
           return {
             url: `/share/album/${albumId}/user/${userId}`,
             method: "POST",
-            body: emailData,
+            body: dataToShare,
           };
         },
 
@@ -93,10 +94,10 @@ const apiSlice = createApi({
       }),
 
       deleteAlbum: builder.mutation({
-        query: (album) => {
+        query: ({ userId, album }) => {
           //console.log(albumId, userId);
           return {
-            url: `/delete/album/${album?._id}/user/${album?.userId}`,
+            url: `/delete/album/${album?._id}/user/${userId}`,
             method: "DELETE",
           };
         },

@@ -6,12 +6,15 @@ import ShareComponent from "./ShareComponent";
 import {
   useDeleteAlbumMutation,
   useGetAllAlbumsQuery,
+  useGetProfileInfoQuery,
 } from "../features/apiSlice";
 import Loader from "./Loader";
 import { toast } from "react-toastify";
+import HiddenFeatures from "./HiddenFeatures";
 
 const Albums = () => {
   const [showShare, setShowShare] = useState(null);
+  const { data: userId } = useGetProfileInfoQuery();
   const { data: albumData, isLoading, isError, error } = useGetAllAlbumsQuery();
   const [deleteTheAlbum] = useDeleteAlbumMutation();
   const navigate = useNavigate();
@@ -23,10 +26,10 @@ const Albums = () => {
 
   const deleteHandler = async (album) => {
     try {
-      await deleteTheAlbum(album);
+      await deleteTheAlbum({ userId, album }).unwrap();
       toast.success("Album deleted");
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error?.data?.message);
     }
   };
 
@@ -44,7 +47,7 @@ const Albums = () => {
               <div
                 className="col-sm-6 col-lg-4 col-xl-3 mb-3"
                 key={albums?._id}
-                style={{ height: showShare !== index ? "25rem" : "30rem" }}
+                style={{ height: showShare !== index ? "25rem" : "32rem" }}
               >
                 <div className="card border-2 h-100">
                   <img
@@ -71,31 +74,35 @@ const Albums = () => {
                       {albums?.description}
                     </p>
 
-                    <div className="pt-4 pb-1 d-flex align-items-center justify-content-evenly">
-                      <div className={`fs-4 ${styles.share}`}>
-                        <BsShareFill
-                          className={`${styles.shareBtn}`}
-                          onClick={() => handleShareDisplay(index)}
-                        />
+                    {albums?.userId === userId ? (
+                      <div className="pt-4 pb-1 d-flex align-items-center justify-content-evenly">
+                        <div className={`fs-4 ${styles.share}`}>
+                          <BsShareFill
+                            className={`${styles.shareBtn}`}
+                            onClick={() => handleShareDisplay(index)}
+                          />
+                        </div>
+                        <div className={`fs-4 ${styles.trash}`}>
+                          <BsFillTrashFill
+                            className={`${styles.trashBtn}`}
+                            onClick={() => deleteHandler(albums)}
+                          />
+                        </div>
+                        <div className={`fs-4 ${styles.edit}`}>
+                          <BsPencilSquare
+                            className={`${styles.editBtn}`}
+                            onClick={() => {
+                              navigate("/add/album", { state: albums });
+                            }}
+                          />
+                        </div>
                       </div>
-                      <div className={`fs-4 ${styles.trash}`}>
-                        <BsFillTrashFill
-                          className={`${styles.trashBtn}`}
-                          onClick={() => deleteHandler(albums)}
-                        />
-                      </div>
-                      <div className={`fs-4 ${styles.edit}`}>
-                        <BsPencilSquare
-                          className={`${styles.editBtn}`}
-                          onClick={() => {
-                            navigate("/add/album", { state: albums });
-                          }}
-                        />
-                      </div>
-                    </div>
+                    ) : (
+                      <HiddenFeatures />
+                    )}
                   </div>
 
-                  {showShare === index && <ShareComponent />}
+                  {showShare === index && <ShareComponent album={albums} />}
                 </div>
               </div>
             );
