@@ -8,6 +8,8 @@ import RefresherHandler from "./components/RefresherHandler";
 import Register from "./pages/Register";
 import AlbumDetails from "./pages/AlbumDetails";
 import AddAlbums from "./pages/AddAlbums";
+import ImageDetails from "./pages/ImageDetails";
+import AddImages from "./pages/AddImages";
 
 const App = () => {
   return (
@@ -29,6 +31,14 @@ const App = () => {
             <Route
               path="/add/album"
               element={<PrivateRoute element={<AddAlbums />} />}
+            />
+            <Route
+              path="/add/images"
+              element={<PrivateRoute element={<AddImages />} />}
+            />
+            <Route
+              path="/image/:imageId"
+              element={<PrivateRoute element={<ImageDetails />} />}
             />
           </Routes>
         </div>

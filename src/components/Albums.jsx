@@ -66,6 +66,7 @@ const Albums = () => {
                       to={`/album/details/${albums?._id}`}
                       className={`rounded-pill px-4 ${styles.btn} fs-5 fw-medium text-light`}
                       type="button"
+                      state={albums}
                     >
                       Visit
                     </Link>
