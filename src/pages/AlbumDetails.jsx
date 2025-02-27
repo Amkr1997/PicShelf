@@ -42,7 +42,7 @@ const AlbumDetails = () => {
             <Link
               to={"/add/images"}
               type="button"
-              className={`${styles.createAlbumBtn} w-25`}
+              className={`${styles.createAlbumBtn}`}
               state={albumId}
             >
               Add New Image+

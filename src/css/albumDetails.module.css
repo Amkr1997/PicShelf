@@ -1,3 +1,9 @@
+@media (min-width: 48rem) {
+  .createAlbumBtn {
+    width: 35% !important;
+  }
+}
+
 .imageContainer {
   text-decoration: none;
 }
@@ -26,7 +32,7 @@
   text-decoration: none;
   text-align: center;
   color: #212529;
-  width: 100%;
+  width: 75%;
 }
 
 .createAlbumBtn:hover {
