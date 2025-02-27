@@ -67,6 +67,9 @@ const AddAlbums = () => {
     <>
       <NavbarResponsive />
       <main className="container">
+        <h2 className="pt-2 pb-4 text-center">
+          {!state ? "Add New Album" : "Edit Existing Album"}
+        </h2>
         <div className="row">
           <div className="col-2"></div>
           <form onSubmit={submitHandler} className="col-8">

@@ -1,6 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "../css/albums.module.css";
-import { BsShareFill, BsFillTrashFill, BsPencilSquare } from "react-icons/bs";
 import { useState } from "react";
 import ShareComponent from "./ShareComponent";
 import {
@@ -11,13 +10,13 @@ import {
 import Loader from "./Loader";
 import { toast } from "react-toastify";
 import HiddenFeatures from "./HiddenFeatures";
+import AlbumOptions from "./AlbumOptions";
 
 const Albums = () => {
   const [showShare, setShowShare] = useState(null);
   const { data: userId } = useGetProfileInfoQuery();
   const { data: albumData, isLoading, isError, error } = useGetAllAlbumsQuery();
   const [deleteTheAlbum] = useDeleteAlbumMutation();
-  const navigate = useNavigate();
 
   const handleShareDisplay = (indexVal) => {
     if (showShare === null) setShowShare(indexVal);
@@ -66,7 +65,7 @@ const Albums = () => {
                       to={`/album/details/${albums?._id}`}
                       className={`rounded-pill px-4 ${styles.btn} fs-5 fw-medium text-light`}
                       type="button"
-                      state={albums}
+                      state={albums?._id}
                     >
                       Visit
                     </Link>
@@ -76,28 +75,12 @@ const Albums = () => {
                     </p>
 
                     {albums?.userId === userId ? (
-                      <div className="pt-4 pb-1 d-flex align-items-center justify-content-evenly">
-                        <div className={`fs-4 ${styles.share}`}>
-                          <BsShareFill
-                            className={`${styles.shareBtn}`}
-                            onClick={() => handleShareDisplay(index)}
-                          />
-                        </div>
-                        <div className={`fs-4 ${styles.trash}`}>
-                          <BsFillTrashFill
-                            className={`${styles.trashBtn}`}
-                            onClick={() => deleteHandler(albums)}
-                          />
-                        </div>
-                        <div className={`fs-4 ${styles.edit}`}>
-                          <BsPencilSquare
-                            className={`${styles.editBtn}`}
-                            onClick={() => {
-                              navigate("/add/album", { state: albums });
-                            }}
-                          />
-                        </div>
-                      </div>
+                      <AlbumOptions
+                        handleShareDisplay={handleShareDisplay}
+                        index={index}
+                        deleteHandler={deleteHandler}
+                        data={albums}
+                      />
                     ) : (
                       <HiddenFeatures />
                     )}

@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const apiSlice = createApi({
   reducerPath: "apiSlice",
-  tagTypes: ["GetAllAlbums"],
+  tagTypes: ["GetAllAlbums", "GetAllImages", "GetSingleAlbum"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${API_URL}`,
     prepareHeaders: (headers, { endpoint }) => {
@@ -56,6 +56,18 @@ const apiSlice = createApi({
         providesTags: ["GetAllAlbums"],
       }),
 
+      // Single Album Route
+      getSingleAlbum: builder.query({
+        query: (albumId) => {
+          return {
+            url: `/get/single/album/${albumId}`,
+            method: "GET",
+          };
+        },
+
+        providesTags: ["GetSingleAlbum"],
+      }),
+
       postNewAlbum: builder.mutation({
         query: (albumData) => {
           return {
@@ -82,7 +94,6 @@ const apiSlice = createApi({
 
       shareAlbum: builder.mutation({
         query: ({ albumId, userId, dataToShare }) => {
-          console.log(albumId, userId, dataToShare);
           return {
             url: `/share/album/${albumId}/user/${userId}`,
             method: "POST",
@@ -95,7 +106,6 @@ const apiSlice = createApi({
 
       deleteAlbum: builder.mutation({
         query: ({ userId, album }) => {
-          //console.log(albumId, userId);
           return {
             url: `/delete/album/${album?._id}/user/${userId}`,
             method: "DELETE",
@@ -113,16 +123,36 @@ const apiSlice = createApi({
             method: "GET",
           };
         },
+
+        providesTags: ["GetAllImages"],
+      }),
+
+      getSingleImage: builder.query({
+        query: (imageId) => {
+          return {
+            url: `/get/single/image/${imageId}`,
+            method: "GET",
+          };
+        },
       }),
 
       postImage: builder.mutation({
-        query: (albumId, imageData) => {
+        query: (dataToPost) => {
+          let albumId;
+          dataToPost.forEach((value, key) => {
+            if (key === "albumId") {
+              albumId = value;
+            }
+          });
+
           return {
             url: `/add/image/album/${albumId}`,
             method: "POST",
-            body: imageData,
+            body: dataToPost,
           };
         },
+
+        invalidatesTags: ["GetAllAlbums", "GetAllImages", "GetSingleAlbum"],
       }),
 
       getImageByFav: builder.query({
@@ -144,22 +174,28 @@ const apiSlice = createApi({
       }),
 
       updateImage: builder.mutation({
-        query: (albumId, imageId, dataToUpdate) => {
+        query: (dataToUpdate) => {
+          console.log(dataToUpdate);
+
           return {
-            url: `/update/albums/${albumId}/images/${imageId}`,
+            url: `/update/albums/${dataToUpdate.albumId}/images/${dataToUpdate._id}`,
             method: "POST",
             body: dataToUpdate,
           };
         },
+
+        invalidatesTags: ["GetSingleAlbum"],
       }),
 
       deleteImage: builder.mutation({
-        query: (userId, albumId, imageId) => {
+        query: ({ userId, albumId, imageId }) => {
           return {
             url: `/delete/user/${userId}/album/${albumId}/image/${imageId}`,
             method: "DELETE",
           };
         },
+
+        invalidatesTags: ["GetAllAlbums"],
       }),
     };
   },
@@ -169,11 +205,13 @@ export const {
   useGetProfileInfoQuery,
   useGetAllUsersQuery,
   useGetAllAlbumsQuery,
+  useGetSingleAlbumQuery,
   usePostNewAlbumMutation,
   useUpdateAlbumMutation,
   useShareAlbumMutation,
   useDeleteAlbumMutation,
   useGetAllImagesQuery,
+  useGetSingleImageQuery,
   useGetImageByFavQuery,
   useGetImageByTagsQuery,
   usePostImageMutation,

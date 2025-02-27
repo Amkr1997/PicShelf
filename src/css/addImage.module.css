@@ -2,23 +2,7 @@
   text-decoration: none;
 }
 
-.imageTitle {
-  text-decoration: none;
-  color: #212529;
-}
-
-.foodImg {
-  height: 15rem !important;
-  width: 100% !important;
-  object-fit: cover !important;
-}
-
-.trashBtn,
-.editBtn {
-  cursor: pointer;
-}
-
-.createAlbumBtn {
+.createImageBtn {
   background-color: #fa5252;
   border: none;
   border-radius: 0.75rem;
@@ -29,7 +13,7 @@
   width: 100%;
 }
 
-.createAlbumBtn:hover {
+.createImageBtn:hover {
   background-color: #f03e3e;
   color: #edf2ff;
   transition: all 0.2s;
