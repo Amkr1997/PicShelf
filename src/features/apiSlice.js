@@ -212,7 +212,7 @@ export const {
   useDeleteAlbumMutation,
   useGetAllImagesQuery,
   useGetSingleImageQuery,
-  useGetImageByFavQuery,
+  useLazyGetImageByFavQuery,
   useGetImageByTagsQuery,
   usePostImageMutation,
   useUpdateImageMutation,

@@ -10,8 +10,10 @@ import HiddenFeatures from "../components/HiddenFeatures";
 import ImageOptions from "../components/ImageOptions";
 import { toast } from "react-toastify";
 import ImageLoader from "../components/ImageLoader";
+import { useState } from "react";
 
 const AlbumDetails = () => {
+  const [showFilteredImg, setShowFilteredImg] = useState(false);
   const { data: userId } = useGetProfileInfoQuery();
   const { state } = useLocation();
   const { albumId } = useParams();
@@ -32,23 +34,44 @@ const AlbumDetails = () => {
     }
   };
 
+  const handleFilter = (e) => {
+    setShowFilteredImg((prev) => {
+      if (prev === false) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+
+  const filteredImages = showFilteredImg
+    ? singleAlbumData?.imageId?.filter((img) => img?.isFav === true)
+    : singleAlbumData?.imageId;
+
   return (
     <>
       <NavbarResponsive />
       <main className="container py-4">
         <h1 className="pt-2 pb-4">{state?.name} Images</h1>
-        {singleAlbumData?.userId === userId && (
-          <div className="text-center pb-5">
-            <Link
-              to={"/add/images"}
-              type="button"
-              className={`${styles.createAlbumBtn}`}
-              state={albumId}
-            >
-              Add New Image+
-            </Link>
+        <div className="pb-5 d-flex align-items-center justify-content-evenly">
+          <div className="w-100 text-center">
+            <button className={`${styles.filterBtn}`} onClick={handleFilter}>
+              {!showFilteredImg ? "Filter by Favorite" : "Filter by All"}
+            </button>
           </div>
-        )}
+          {singleAlbumData?.userId === userId && (
+            <div className="text-center w-100">
+              <Link
+                to={"/add/images"}
+                type="button"
+                className={`${styles.createAlbumBtn}`}
+                state={albumId}
+              >
+                Add New Image+
+              </Link>
+            </div>
+          )}
+        </div>
         <section className="row">
           {albumHasError && (
             <h2 className="text-center mt-5">{albumError.message}</h2>
@@ -56,7 +79,7 @@ const AlbumDetails = () => {
           {albumIsLoading ? (
             <ImageLoader />
           ) : (
-            singleAlbumData?.imageId?.map((image, index) => {
+            filteredImages?.map((image, index) => {
               return (
                 <div
                   to={`/image/${image?._id}`}

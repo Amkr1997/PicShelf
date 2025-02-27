@@ -1,6 +1,7 @@
 @media (min-width: 48rem) {
-  .createAlbumBtn {
-    width: 35% !important;
+  .createAlbumBtn,
+  .filterBtn {
+    width: 45% !important;
   }
 }
 
@@ -22,6 +23,22 @@
 .trashBtn,
 .editBtn {
   cursor: pointer;
+}
+
+.filterBtn {
+  background-color: #ffe3e3;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.25rem 0;
+  text-decoration: none;
+  text-align: center;
+  color: #212529;
+  width: 75%;
+}
+
+.filterBtn:hover {
+  background-color: #ffc9c9;
+  transition: all 0.2s;
 }
 
 .createAlbumBtn {
