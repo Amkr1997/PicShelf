@@ -71,8 +71,8 @@ const AddAlbums = () => {
           {!state ? "Add New Album" : "Edit Existing Album"}
         </h2>
         <div className="row">
-          <div className="col-2"></div>
-          <form onSubmit={submitHandler} className="col-8">
+          <div className="col-0 col-sm-2"></div>
+          <form onSubmit={submitHandler} className="col-12 col-sm-8">
             <div className="my-2">
               <label className="form-label">Album Name:</label>
               <input
@@ -100,7 +100,7 @@ const AddAlbums = () => {
               {!state ? "Create Album" : "Edit Album"}
             </button>
           </form>
-          <div className="col-2"></div>
+          <div className="col-0 col-sm-2"></div>
         </div>
       </main>
     </>
